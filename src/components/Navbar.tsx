@@ -57,11 +57,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
   return (
     <header
       id="main-navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-slate-900/98 backdrop-blur-md shadow-lg shadow-slate-950/20 border-b-4 border-orange-600'
-          : 'bg-slate-900 backdrop-blur-sm border-b-4 border-orange-600'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-slate-900/98 backdrop-blur-md shadow-lg shadow-slate-950/20 border-b-4 border-orange-600'
+        : 'bg-slate-900 backdrop-blur-sm border-b-4 border-orange-600'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
@@ -74,8 +73,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-500 shadow-sm shrink-0 bg-slate-800 flex items-center justify-center">
               {!navImgError ? (
                 <img
-                  src={profileImage}
-                  alt="Mohaiminul Haque Sami"
+                  src={profileImage || '/assets/images/Profile.jpeg'}
+                  alt="Profile Logo"
                   className="w-full h-full object-cover object-top"
                   referrerPolicy="no-referrer"
                   onError={() => setNavImgError(true)}
@@ -84,14 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
                 <span className="font-bold text-orange-400 text-sm font-mono">MHS</span>
               )}
             </div>
-            <div>
-              <span className="block font-heading text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-orange-400 transition-colors">
-                MOHAIMINUL HAQUE SAMI
-              </span>
-              <span className="block text-[10px] font-mono uppercase tracking-widest text-slate-400">
-                Civil & Structural Engineering
-              </span>
-            </div>
+
           </a>
 
           {/* Desktop Navigation */}
@@ -103,11 +95,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
                   key={link.name}
                   href={link.href}
                   id={`nav-link-${link.name.toLowerCase()}`}
-                  className={`px-3 py-1.5 text-xs font-semibold uppercase tracking-wider rounded transition-colors relative ${
-                    isActive
-                      ? 'text-orange-400 bg-slate-800/90 font-bold'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                  }`}
+                  className={`px-3 py-1.5 text-xs font-semibold uppercase tracking-wider rounded transition-colors relative ${isActive
+                    ? 'text-orange-400 bg-slate-800/90 font-bold'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                    }`}
                 >
                   {link.name}
                   {isActive && (
@@ -175,11 +166,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   id={`mobile-nav-${link.name.toLowerCase()}`}
-                  className={`px-3 py-2 text-xs uppercase tracking-wider rounded font-medium transition-colors ${
-                    isActive
-                      ? 'text-orange-400 bg-slate-800 font-bold'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                  }`}
+                  className={`px-3 py-2 text-xs uppercase tracking-wider rounded font-medium transition-colors ${isActive
+                    ? 'text-orange-400 bg-slate-800 font-bold'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                    }`}
                 >
                   {link.name}
                 </a>

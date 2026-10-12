@@ -43,7 +43,7 @@ export const personalInfo: PersonalInfo = {
     'Material quantity estimation & BOQ',
     'Quality control & standard specifications compliance'
   ],
-  avatarUrl: '/sami-profile.jpg'
+  avatarUrl: '/assets/images/Profile.jpeg'
 };
 
 export const workExperience: WorkExperience[] = [

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   FileDown,
   ArrowRight,
@@ -10,10 +10,7 @@ import {
   Ruler,
   Layers,
   MapPin,
-  CheckCircle2,
-  Upload,
-  Camera,
-  RotateCcw
+  CheckCircle2
 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { useProfileImage } from '../context/ProfileImageContext';
@@ -23,69 +20,32 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenCvModal }) => {
-  const { profileImage, isCustom, uploadPhoto, resetPhoto } = useProfileImage();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const { profileImage } = useProfileImage();
   const [imgError, setImgError] = useState(false);
 
   React.useEffect(() => {
     setImgError(false);
   }, [profileImage]);
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setIsUploading(true);
-      try {
-        await uploadPhoto(file);
-      } finally {
-        setIsUploading(false);
-      }
-    }
-  };
-
-  const handleDrop = async (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      setIsUploading(true);
-      try {
-        await uploadPhoto(file);
-      } finally {
-        setIsUploading(false);
-      }
-    }
-  };
   return (
     <section
       id="hero"
       className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 bg-slate-50 text-slate-900 overflow-hidden border-b border-slate-200 blueprint-bg"
     >
-      {/* Subtle Coordinate Lines & Technical Crosshairs */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-12 left-10 text-[10px] font-mono text-slate-400">
-          GRID: E-23°52'N / ELEV: +18.40m
-        </div>
-        <div className="absolute bottom-8 right-12 text-[10px] font-mono text-slate-400">
-          DATUM: PWD STANDARD BENCHMARK
-        </div>
-        <div className="hidden lg:block absolute top-1/3 right-1/4 w-64 h-64 border border-slate-300 rounded-full" />
-        <div className="hidden lg:block absolute top-1/3 right-1/4 w-80 h-80 border border-dashed border-orange-400/30 rounded-full" />
+      {/* Soft Ambient Minimalist Glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-24 right-1/4 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 -left-20 w-80 h-80 bg-slate-200/50 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Main Content Column */}
           <div className="lg:col-span-7 space-y-6 text-left">
-            
+
             {/* Status & Discipline Chip */}
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded bg-orange-50 border border-orange-200 text-orange-700 text-xs font-mono font-semibold tracking-wide">
               <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" />
-              <span>CIVIL & STRUCTURAL ENGINEERING</span>
-              <span className="text-orange-300">|</span>
               <span className="text-slate-600">DHAKA, BANGLADESH</span>
             </div>
 
@@ -100,7 +60,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCvModal }) => {
                   HAQUE SAMI
                 </span>
               </h1>
-              
+
               {/* Primary Professional Title */}
               <p
                 id="hero-title"
@@ -219,7 +179,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCvModal }) => {
           {/* Right Column: Architectural Engineering Visual Feature */}
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-md lg:max-w-none">
-              
+
               {/* Engineering Blueprint Card */}
               <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-md relative overflow-hidden">
                 {/* Top Blueprint Ruler */}
@@ -231,57 +191,26 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCvModal }) => {
                   <span className="text-orange-600 font-bold">MHS-2026</span>
                 </div>
 
-                {/* Visual Architectural Profile Portrait with Drag-and-Drop & Upload */}
-                <div
-                  className={`relative rounded overflow-hidden border ${
-                    isDragging ? 'border-orange-500 ring-2 ring-orange-400' : 'border-slate-200'
-                  } bg-slate-900 aspect-[4/3] group transition-all`}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    setIsDragging(true);
-                  }}
-                  onDragLeave={() => setIsDragging(false)}
-                  onDrop={handleDrop}
-                >
-                  {!imgError ? (
-                    <img
-                      src={profileImage}
-                      alt="Mohaiminul Haque Sami - Civil Engineering Professional Portrait"
-                      className="w-full h-full object-cover object-top group-hover:scale-103 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                      onError={() => setImgError(true)}
-                    />
-                  ) : (
-                    <div
-                      onClick={() => fileInputRef.current?.click()}
-                      className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-slate-900 cursor-pointer hover:bg-slate-850 transition-colors"
-                    >
-                      <div className="w-14 h-14 rounded-full bg-orange-600/20 border border-orange-500 flex items-center justify-center text-orange-400 mb-3 group-hover:scale-110 transition-transform">
-                        <Camera className="w-7 h-7" />
-                      </div>
-                      <p className="text-white font-heading font-bold text-base">
-                        Click to Upload Original Photo
-                      </p>
-                      <p className="text-slate-400 text-xs font-mono mt-1 max-w-xs">
-                        Select your WhatsApp photo directly from your device. No AI face generation or alteration.
-                      </p>
-                      <span className="mt-3 px-3 py-1.5 rounded bg-orange-600 hover:bg-orange-500 text-white font-mono font-bold text-xs shadow-md">
-                        Browse Photo File
-                      </span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent pointer-events-none" />
-                  
+                {/* Visual Architectural Profile Portrait Frame */}
+                <div className="relative rounded overflow-hidden border border-slate-200 bg-slate-900 aspect-[4/3] group transition-all shadow-inner">
+                  <img
+                    src="/assets/images/Profile-Main.jpeg"
+                    alt="Mohaiminul Haque Sami - Civil Engineering Professional Portrait"
+                    className="w-full h-full object-cover object-top group-hover:scale-103 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/assets/image/Profile-Main.jpeg';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent pointer-events-none" />
+
                   {/* Technical Overlay Tags */}
                   <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between pointer-events-none">
                     <div>
                       <span className="inline-block px-2 py-0.5 rounded bg-orange-600 text-white font-bold text-[10px] font-mono uppercase tracking-wider">
-                        {isCustom ? 'ORIGINAL PHOTO ACTIVE' : 'VERIFIED PROFILE'}
+                        PORTFOLIO PROFILE
                       </span>
-                      <p className="text-sm font-bold text-white mt-1 font-heading">
-                        Mohaiminul Haque Sami
-                      </p>
-                      <p className="text-[11px] text-slate-200 font-mono">
+                      <p className="text-[11px] text-slate-200 font-mono mt-1">
                         Civil Engineering Student | Aspiring Structural Engineer
                       </p>
                     </div>
@@ -291,54 +220,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCvModal }) => {
                   <div className="absolute top-3 right-3 px-2 py-1 rounded bg-slate-900/90 border border-slate-700 text-[10px] font-mono text-orange-400 font-bold pointer-events-none">
                     DHAKA, BANGLADESH
                   </div>
-
-                  {/* Overlay Upload Button on Hover/Mobile */}
-                  <div className="absolute top-3 left-3 flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={isUploading}
-                      className="px-2.5 py-1.5 rounded bg-white/95 hover:bg-white text-slate-800 text-[11px] font-mono font-bold flex items-center gap-1.5 shadow-md border border-slate-200 hover:border-orange-400 transition-colors"
-                      title="Upload your original WhatsApp/phone photo"
-                    >
-                      <Camera className="w-3.5 h-3.5 text-orange-600" />
-                      <span>{isUploading ? 'Uploading...' : 'Upload Original Photo'}</span>
-                    </button>
-                    {isCustom && (
-                      <button
-                        type="button"
-                        onClick={resetPhoto}
-                        className="p-1.5 rounded bg-slate-900/80 hover:bg-slate-900 text-slate-300 hover:text-white text-[10px] font-mono border border-slate-700 transition-colors"
-                        title="Reset to default image"
-                      >
-                        <RotateCcw className="w-3 h-3" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Hidden input for genuine photo file selection */}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-
-                {/* Quick Hint / Action bar */}
-                <div className="mt-2.5 px-3 py-2 rounded-lg bg-orange-50/80 border border-orange-200 flex items-center justify-between text-[11px] font-mono text-slate-700">
-                  <span className="flex items-center gap-1.5">
-                    <Upload className="w-3.5 h-3.5 text-orange-600 shrink-0" />
-                    <span>Click <strong>Upload Original Photo</strong> to use your real photo directly</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="text-orange-700 font-bold underline hover:text-orange-800 shrink-0 ml-2"
-                  >
-                    Select file
-                  </button>
                 </div>
 
                 {/* Engineering Metrics / Structural Spec Highlights */}

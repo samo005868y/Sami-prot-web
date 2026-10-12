@@ -12,7 +12,7 @@ const ProfileImageContext = createContext<ProfileImageContextType | undefined>(u
 const DB_NAME = 'SamiPortfolioDB';
 const STORE_NAME = 'media';
 const KEY = 'original_profile_image';
-const DEFAULT_IMAGE = '/sami-profile.jpg';
+const DEFAULT_IMAGE = '/assets/images/Profile.jpeg';
 
 // Open IndexedDB safely
 function openDB(): Promise<IDBDatabase> {

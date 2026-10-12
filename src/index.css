@@ -13,9 +13,10 @@
   }
 }
 
+/* Minimalist Modern Gradient - Soft clean gradients with no grid lines */
 .blueprint-bg {
-  background-image: linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 35%, #f1f5f9 70%, #ffffff 100%) !important;
+  background-attachment: fixed !important;
 }
 
 .accent-bar {
@@ -43,23 +44,4 @@
   border-color: #ea580c;
   background: #fff7ed;
   color: #c2410c;
-}
-
-.bg-blueprint-grid {
-  background-size: 24px 24px;
-  background-image: 
-    linear-gradient(to right, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
-}
-
-.bg-blueprint-dark {
-  background-size: 24px 24px;
-  background-image: 
-    linear-gradient(to right, rgba(234, 88, 12, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(234, 88, 12, 0.08) 1px, transparent 1px);
-}
-
-.bg-dots {
-  background-size: 24px 24px;
-  background-image: radial-gradient(rgba(100, 116, 139, 0.25) 1px, transparent 1px);
 }

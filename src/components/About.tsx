@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Compass,
   CheckCircle2,
@@ -10,10 +10,7 @@ import {
   Mail,
   Linkedin,
   ShieldCheck,
-  HardHat,
-  Camera,
-  Upload,
-  RotateCcw
+  HardHat
 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { useProfileImage } from '../context/ProfileImageContext';
@@ -23,26 +20,12 @@ interface AboutProps {
 }
 
 export const About: React.FC<AboutProps> = ({ onOpenGalleryProfile }) => {
-  const { profileImage, isCustom, uploadPhoto, resetPhoto } = useProfileImage();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const { profileImage } = useProfileImage();
   const [imgError, setImgError] = useState(false);
 
   React.useEffect(() => {
     setImgError(false);
   }, [profileImage]);
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setIsUploading(true);
-      try {
-        await uploadPhoto(file);
-      } finally {
-        setIsUploading(false);
-      }
-    }
-  };
   return (
     <section id="about" className="py-20 bg-white text-slate-800 relative border-b border-slate-200 blueprint-bg">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,98 +62,47 @@ export const About: React.FC<AboutProps> = ({ onOpenGalleryProfile }) => {
 
               {/* Photo Area */}
               <div className="relative rounded overflow-hidden bg-slate-900 aspect-[4/5] border border-slate-200">
-                {!imgError ? (
-                  <img
-                    src={profileImage}
-                    alt="Mohaiminul Haque Sami - Civil Engineering Professional Profile"
-                    className="w-full h-full object-cover object-top opacity-95 group-hover:scale-102 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                    onError={() => setImgError(true)}
-                  />
-                ) : (
-                  <div
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-slate-900 cursor-pointer hover:bg-slate-850 transition-colors"
-                  >
-                    <div className="w-14 h-14 rounded-full bg-orange-600/20 border border-orange-500 flex items-center justify-center text-orange-400 mb-3">
-                      <Camera className="w-7 h-7" />
-                    </div>
-                    <p className="text-white font-heading font-bold text-base">
-                      Upload Original Photo
-                    </p>
-                    <p className="text-slate-400 text-xs font-mono mt-1">
-                      Click to choose your WhatsApp photo directly from your device.
-                    </p>
-                    <span className="mt-3 px-3 py-1.5 rounded bg-orange-600 hover:bg-orange-500 text-white font-mono font-bold text-xs">
-                      Select Photo
-                    </span>
-                  </div>
-                )}
+                <img
+                  src={profileImage || '/assets/images/Profile.jpeg'}
+                  alt="Mohaiminul Haque Sami - Civil Engineering Professional Profile"
+                  className="w-full h-full object-cover object-top opacity-95 group-hover:scale-102 transition-transform duration-500"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/assets/images/Profile.jpeg';
+                  }}
+                />
                 
                 {/* Verified Profile Badge */}
                 <div className="absolute top-3 left-3 right-3 bg-white/95 backdrop-blur border border-emerald-300 rounded px-3 py-2 text-[11px] font-mono text-slate-800 flex items-center justify-between shadow-sm">
                   <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    {isCustom ? 'Original Photo Active' : 'Verified Engineer Profile'}
+                    Verified Engineer Profile
                   </span>
                   <span className="text-[10px] text-slate-600 font-semibold">IUBAT • MPI</span>
                 </div>
 
                 {/* Bottom Overlay Info */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent">
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="font-heading text-lg font-bold text-white tracking-wide">
-                        {personalInfo.name}
-                      </p>
-                      <p className="text-xs font-mono text-orange-400 font-medium">
-                        {personalInfo.primaryTitle}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={isUploading}
-                      className="px-2.5 py-1.5 rounded bg-orange-600 hover:bg-orange-500 text-white text-[11px] font-mono font-bold flex items-center gap-1.5 shadow-md transition-colors"
-                      title="Upload your original WhatsApp/phone photo"
-                    >
-                      <Camera className="w-3.5 h-3.5" />
-                      <span>{isUploading ? 'Uploading...' : 'Upload Real Photo'}</span>
-                    </button>
+                  <div>
+                    <p className="font-heading text-lg font-bold text-white tracking-wide">
+                      {personalInfo.name}
+                    </p>
+                    <p className="text-xs font-mono text-orange-400 font-medium">
+                      {personalInfo.primaryTitle}
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Hidden file input */}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-
-              {/* Profile Status Note & Reset option */}
+              {/* Profile Status Note */}
               <div className="mt-3 px-3 py-2.5 rounded bg-white border border-slate-200 text-[11px] text-slate-700 font-mono shadow-2xs flex items-center justify-between">
                 <div>
                   <span className="text-orange-600 font-bold block">Mohaiminul Haque Sami</span>
                   <span className="text-[10px] text-slate-500">Dhaka, Bangladesh • Civil & Structural Engineering</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  {isCustom && (
-                    <button
-                      type="button"
-                      onClick={resetPhoto}
-                      className="text-[10px] text-slate-500 hover:text-slate-800 underline"
-                      title="Reset to default image"
-                    >
-                      Reset
-                    </button>
-                  )}
-                  <span className="px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold">
-                    {isCustom ? 'ORIGINAL' : 'ACTIVE'}
-                  </span>
-                </div>
+                <span className="px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold">
+                  ACTIVE PROFILE
+                </span>
               </div>
             </div>
 
